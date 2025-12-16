@@ -49,9 +49,9 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
 
         try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
             ps.setInt(1, categoryId);
+
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 return mapRow(rs);
@@ -81,18 +81,19 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         // delete category
     }
 
-    private Category mapRow(ResultSet row) throws SQLException
-    {
+    private Category mapRow(ResultSet row) throws SQLException {
         int categoryId = row.getInt("category_id");
         String name = row.getString("name");
         String description = row.getString("description");
 
-        Category category = new Category()
-        {{
-            setCategoryId(categoryId);
-            setName(name);
-            setDescription(description);
-        }};
+        Category category = new Category() {
+            {
+                setCategoryId(categoryId);
+                setName(name);
+                setDescription(description);
+            }
+
+        };
 
         return category;
     }
