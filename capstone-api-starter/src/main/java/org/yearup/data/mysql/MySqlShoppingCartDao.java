@@ -111,6 +111,9 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             ps.setInt(2,userId);
             ps.setInt(3,productId);
 
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
