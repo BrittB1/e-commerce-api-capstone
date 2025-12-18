@@ -72,7 +72,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             if (rs.next()) {
                 PreparedStatement updateStatement = c.prepareStatement(updateSql);
                 updateStatement.setInt(1, userId);
-                updateStatement.setInt(1, productId);
+                updateStatement.setInt(2, productId);
                 updateStatement.executeUpdate();
             } else {
                 PreparedStatement insertStatment = c.prepareStatement(insertSql);
