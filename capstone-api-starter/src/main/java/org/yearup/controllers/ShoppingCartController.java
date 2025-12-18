@@ -19,15 +19,14 @@ import java.security.Principal;
 @RequestMapping("cart")
 @CrossOrigin
 @PreAuthorize("isAuthenticated()")
-public class ShoppingCartController
-{
+public class ShoppingCartController {
     // a shopping cart requires
     private ShoppingCartDao shoppingCartDao;
     private UserDao userDao;
     private ProductDao productDao;
 
     @Autowired
-    public ShoppingCartController(ShoppingCartDao scd,UserDao ud, ProductDao pd) {
+    public ShoppingCartController(ShoppingCartDao scd, UserDao ud, ProductDao pd) {
         this.shoppingCartDao = scd;
         this.userDao = ud;
         this.productDao = pd;
@@ -36,10 +35,8 @@ public class ShoppingCartController
 
     // each method in this controller requires a Principal object as a parameter
     @GetMapping("")
-    public ShoppingCart getCart(Principal principal)
-    {
-        try
-        {
+    public ShoppingCart getCart(Principal principal) {
+        try {
             // get the currently logged in username
             String userName = principal.getName();
             // find database user by userId
@@ -48,9 +45,7 @@ public class ShoppingCartController
 
             // use the shoppingcartDao to get all items in the cart and return the cart
             return shoppingCartDao.getByUserId(userId);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -67,7 +62,7 @@ public class ShoppingCartController
             User u = userDao.getByUserName(userName);
             int userId = u.getId();
 
-            shoppingCartDao.addProduct(userId,productId);
+            shoppingCartDao.addProduct(userId, productId);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -82,5 +77,19 @@ public class ShoppingCartController
 
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart
+    @DeleteMapping("")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void clearCart(Principal p) {
 
+        try {
+            String username = p.getName();
+            User u = userDao.getByUserName(username);
+            int userId = u.getId();
+
+            shoppingCartDao.clearCart(userId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops..our bad");
+
+        }
+    }
 }
