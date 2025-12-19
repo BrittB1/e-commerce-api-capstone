@@ -292,13 +292,6 @@ Authorization: Bearer <your_token>
 ```
 
 ---
-
-## 📸 Screenshots
-
-*Coming soon*
-
----
-
 ## 📚 Lessons Learned
 
 ### Technical Skills
